@@ -1,0 +1,65 @@
+.fee-submission-container {
+    padding: 20px;
+    max-width: 1000px; 
+    margin: auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fee-submission-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .fee-submission-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+  }
+  
+  .fee-submission-form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .fee-submission-form label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .fee-submission-form input,
+  .fee-submission-form select {
+    padding: 10px;
+    width: 100%; /* Full width for input/select elements */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .fee-submission-form button {
+    padding: 12px 20px;
+    background-color: #047d8d;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fee-submission-form button:hover {
+    background-color: #047d8d;
+  }
+  
+  .fee-submission-form input:focus,
+  .fee-submission-form select:focus {
+    outline: none;
+    border-color: #047d8d;
+    box-shadow: 0 0 5px #047d8d;
+  }
+  
