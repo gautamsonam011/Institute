@@ -1,0 +1,67 @@
+.main-containerr {
+    padding: 2rem;
+    background-color: #c6eef3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .hero {
+    max-width: 50%;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    color: #007acc;
+  }
+  
+  .hero .subtitle {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .hero .description {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .download-buttons {
+    margin-top: 2rem;
+  }
+  
+  .download-buttons button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .app-store {
+    background-color: black;
+    color: white;
+  }
+  
+  .google-play {
+    background-color: #007acc;
+    color: white;
+  }
+  
+  .phone-mockup img {
+    max-height: 1000px;
+  }
+  @media (max-width: 768px) {
+    .hero, .phone-mockup {
+      max-width: 100%; /* Stacks the content vertically */
+      text-align: center;
+    }
+  
+    .main-containerr {
+      flex-direction: column;
+    }
+  }
+  

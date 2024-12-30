@@ -1,0 +1,112 @@
+/* About Section Styling */
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem;
+  background-color: #fefefe;
+  flex-wrap: wrap; /* Makes it responsive */
+}
+
+.about-content {
+  max-width: 50%;
+}
+
+.about-heading {
+  color: #0a4c70;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #343a40;
+}
+
+.about-description {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.about-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.about-list li {
+  font-size: 1rem;
+  color: #343a40;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.about-list li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #0a4c70;
+}
+
+.about-button {
+  background-color: #0a4c70;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.about-image-container {
+  position: relative;
+  max-width: 45%;
+}
+
+.about-image {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* .play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #ff6fa3;
+  cursor: pointer;
+} */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .about-content {
+    max-width: 100%;
+  }
+
+  .about-image-container {
+    max-width: 100%;
+  }
+}

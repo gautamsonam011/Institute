@@ -1,0 +1,155 @@
+.features-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: white;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-title {
+  font-size: 2rem;
+  color: #0a4c70;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.features-divider {
+  width: 50px;
+  height: 3px;
+  background-color: #6c63ff;
+  margin: 0.5rem auto 1rem;
+}
+
+.features-description {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.features-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap; /* Allows wrapping for smaller screens */
+}
+
+.features-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+  min-width: 250px; /* Ensures columns don't collapse too much */
+}
+
+.feature-card {
+  text-align: center;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: #6c63ff;
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.feature-description {
+  font-size: 0.9rem;
+  color: #777;
+  line-height: 1.4;
+}
+
+.features-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+}
+
+.features-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .features-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .features-column {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 2rem;
+  }
+
+  .features-image {
+    margin: 2rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-title {
+    font-size: 1.8rem;
+  }
+
+  .features-description {
+    font-size: 0.9rem;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+
+  .feature-title {
+    font-size: 1rem;
+  }
+
+  .feature-description {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .features-section {
+    padding: 2rem 1rem;
+  }
+
+  .features-title {
+    font-size: 1.5rem;
+  }
+
+  .features-description {
+    font-size: 0.8rem;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+  }
+
+  .features-divider {
+    width: 40px;
+    height: 2px;
+  }
+}

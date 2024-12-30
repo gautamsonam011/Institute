@@ -1,0 +1,125 @@
+.contact-us {
+  text-align: center;
+  padding: 70px 20px; /* Reduce padding for smaller screens */
+  background-color: #f9f9f9;
+}
+
+.contact-heading {
+  font-size: 2rem;
+  color: #0a4c70;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.contact-description {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+.contact-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-form {
+  flex: 1;
+  max-width: 60%; /* Restrict width for larger screens */
+}
+
+.contact-info {
+  flex: 1;
+  max-width: 30%;
+  background: #e0f7fa;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap; /* Allow inputs to stack on smaller screens */
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 10px;
+  height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.form-submit {
+  width: 100%;
+  padding: 10px;
+  background: #0a4c70;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.info-box {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.info-box p {
+  margin: 0;
+  color: #333;
+}
+
+.info-box strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #0a4c70;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .contact-content {
+    flex-direction: column; /* Stack form and info vertically */
+  }
+
+  .contact-form {
+    max-width: 100%;
+    margin-bottom: 20px; /* Add spacing between sections */
+  }
+
+  .contact-info {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-heading {
+    font-size: 1.8rem; /* Slightly smaller heading */
+  }
+
+  .contact-description {
+    font-size: 0.9rem; /* Reduce font size for description */
+  }
+
+  .form-input,
+  .form-textarea {
+    font-size: 0.9rem; /* Adjust input text size */
+  }
+
+  .form-submit {
+    font-size: 1rem; /* Adjust button font size */
+    padding: 12px; /* Adjust button size */
+  }
+}
