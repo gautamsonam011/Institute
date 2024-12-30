@@ -20,9 +20,7 @@ const StudentTable = () => {
         if (!authToken) {
           throw new Error('No authentication token found. Please login.');
         }
-
-        // const apiUrl = 'https://instituteapp-web.onrender.com/'
-
+  
         await fetch('http://127.0.0.1:8000/fees/addFeeHeadAll', {
           method: 'GET',
           headers: {

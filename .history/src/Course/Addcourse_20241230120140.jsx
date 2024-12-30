@@ -14,8 +14,6 @@ const AddCourse = () => {
       description,
     };
 
-    // const apiUrl = 'https://instituteapp-web.onrender.com/'
-
     try {
       const token = localStorage.getItem('access_token'); 
 

@@ -15,8 +15,6 @@ const StudentTable = () => {
     return token;
   };
 
-  // const = apiUrl = 'https://instituteapp-web.onrender.com/';
-
   useEffect(() => {
     const fetchFeeHeadData = async () => {
       try {
