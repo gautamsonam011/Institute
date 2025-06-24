@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './allstudent.css';
 
 const StudentTable = () => {
   const [students, setStudents] = useState([
@@ -35,55 +34,21 @@ const StudentTable = () => {
 
   return (
     <div>
-      <h2>All students list</h2>
+      <h2>Show fee report</h2>
       <div className="filter-container">
+      <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
+          <option value="">All Courses</option>
+          {courses.map((course, index) => (
+            <option key={index} value={course}>{course}</option>
+          ))}
+        </select>
         <input
           type="text"
           placeholder="Search by name"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
-          <option value="">All Courses</option>
-          {courses.map((course, index) => (
-            <option key={index} value={course}>{course}</option>
-          ))}
-        </select>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Sr No.</th>
-            <th>Name</th>
-            <th>Course</th>
-            <th>DOB</th>
-            <th>Mobile No.</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredStudents.map((student, index) => (
-            <tr key={student.id}>
-              <td>{index + 1}</td>
-              <td>{student.name}</td>
-              <td>{student.course}</td>
-              <td>{student.dob}</td>
-              <td>{student.mobNo}</td>
-              <td>
-                <div className="dropdown">
-                  <button onClick={() => toggleDropdown(student.id)} className="dots-button">•••</button>
-                  {openDropdown === student.id && (
-                    <div className="dropdown-menu">
-                      <button onClick={() => handleEdit(student.id)}>Edit</button>
-                      <button onClick={() => handleDelete(student.id)}>Delete</button>
-                    </div>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };

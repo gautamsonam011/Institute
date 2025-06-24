@@ -29,7 +29,7 @@ const ClassHeadTable = () => {
               'Content-Type': 'application/json',
             },
           }),
-          fetch('http://127.0.0.1:8000/courses/courseAll', {
+          fetch(`${BASE_URL}/courses/courseAll`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ const ClassHeadTable = () => {
           value={selectedCourse}
           onChange={(e) => setSelectedCourse(e.target.value)}
         >
-          <option value="">--Select Course --</option>
+          <option value="">-- Select Course --</option>
           {courses.map((course) => (
             <option key={course.id} value={course.courseName}>
               {course.courseName}

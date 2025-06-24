@@ -12,6 +12,7 @@ const ClassHeadTable = () => {
     return localStorage.getItem('access_token');
   };
 
+  // ✅ Fetch courses and fee heads on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,13 +24,13 @@ const ClassHeadTable = () => {
         }
 
         const [feeHeadRes, courseRes] = await Promise.all([
-          fetch('http://127.0.0.1:8000/fees/classFeeHeadAll', {
+          fetch('http://127.0.0.1:8000/fees/addFeeHeadAll', {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           }),
-          fetch('http://127.0.0.1:8000/courses/courseAll', {
+          fetch('http://127.0.0.1:8000/courseAll', {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -63,16 +64,19 @@ const ClassHeadTable = () => {
     fetchData();
   }, []);
 
+  // ✅ Handle amount change
   const handleFeeAmountChange = (id, amount) => {
     setFeeHeads(feeHeads.map((item) =>
       item.id === id ? { ...item, amount, course: selectedCourse } : item
     ));
   };
 
+  // ✅ Filter by selected course
   const filteredFeeHeads = feeHeads.filter((item) =>
     selectedCourse ? item.course === selectedCourse || item.course === '' : true
   );
 
+  // ✅ Save to backend
   const handleSave = async () => {
     try {
       const token = await getAuthToken();
@@ -126,7 +130,7 @@ const ClassHeadTable = () => {
           value={selectedCourse}
           onChange={(e) => setSelectedCourse(e.target.value)}
         >
-          <option value="">--Select Course --</option>
+          <option value="">-- Select Course --</option>
           {courses.map((course) => (
             <option key={course.id} value={course.courseName}>
               {course.courseName}

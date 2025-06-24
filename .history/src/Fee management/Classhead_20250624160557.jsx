@@ -126,7 +126,7 @@ const ClassHeadTable = () => {
           value={selectedCourse}
           onChange={(e) => setSelectedCourse(e.target.value)}
         >
-          <option value="">--Select Course --</option>
+          <option value="">-- Select Course --</option>
           {courses.map((course) => (
             <option key={course.id} value={course.courseName}>
               {course.courseName}

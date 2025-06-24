@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './classhead.css';
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:8000';
+
 const ClassHeadTable = () => {
   const [feeHeads, setFeeHeads] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -23,13 +25,13 @@ const ClassHeadTable = () => {
         }
 
         const [feeHeadRes, courseRes] = await Promise.all([
-          fetch('http://127.0.0.1:8000/fees/classFeeHeadAll', {
+          fetch(`${BASE_URL}/fees/classFeeHeadAll`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           }),
-          fetch('http://127.0.0.1:8000/courses/courseAll', {
+          fetch(`${BASE_URL}/courses/courseAll`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -92,7 +94,7 @@ const ClassHeadTable = () => {
         return;
       }
 
-      const response = await fetch('http://127.0.0.1:8000/fees/classFeeHead', {
+      const response = await fetch(`${BASE_URL}/fees/classFeeHead`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -126,7 +128,7 @@ const ClassHeadTable = () => {
           value={selectedCourse}
           onChange={(e) => setSelectedCourse(e.target.value)}
         >
-          <option value="">--Select Course --</option>
+          <option value="">-- Select Course --</option>
           {courses.map((course) => (
             <option key={course.id} value={course.courseName}>
               {course.courseName}

@@ -3,12 +3,13 @@ import './allstudent.css';
 
 const StudentTable = () => {
   const [students, setStudents] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingStudent, setEditingStudent] = useState(null);  // State to track the student being edited
+  const [editingStudent, setEditingStudent] = useState(null);
   const [editedData, setEditedData] = useState({
     firstName: '',
     lastName: '',
@@ -18,7 +19,7 @@ const StudentTable = () => {
   });
 
   useEffect(() => {
-    const fetchStudents = async () => {
+    const fetchStudentsAndCourses = async () => {
       try {
         const authToken = localStorage.getItem("access_token");
         if (!authToken) {
@@ -27,21 +28,32 @@ const StudentTable = () => {
           return;
         }
 
-        const response = await fetch("http://127.0.0.1:8000/student/astudentAll", {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${authToken}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const [studentsResponse, coursesResponse] = await Promise.all([
+          fetch("http://127.0.0.1:8000/student/astudentAll", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${authToken}`,
+              "Content-Type": "application/json",
+            },
+          }),
+          fetch("http://127.0.0.1:8000/courses/courseAll", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${authToken}`,
+              "Content-Type": "application/json",
+            },
+          })
+        ]);
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.statusText}`);
+        if (!studentsResponse.ok || !coursesResponse.ok) {
+          throw new Error("Failed to fetch data");
         }
 
-        const data = await response.json();
-        console.log(data); // Log to see the data structure
-        setStudents(data);
+        const studentsData = await studentsResponse.json();
+        const coursesData = await coursesResponse.json();
+
+        setStudents(studentsData);
+        setCourses(coursesData);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -49,11 +61,11 @@ const StudentTable = () => {
       }
     };
 
-    fetchStudents();
+    fetchStudentsAndCourses();
   }, []);
 
   const handleEdit = (student) => {
-    setEditingStudent(student);  // Set the student being edited
+    setEditingStudent(student);
     setEditedData({
       firstName: student.firstName,
       lastName: student.lastName,
@@ -72,7 +84,7 @@ const StudentTable = () => {
           "Authorization": `Bearer ${authToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(editedData),  // Send updated data
+        body: JSON.stringify(editedData),
       });
 
       if (!response.ok) {
@@ -84,19 +96,18 @@ const StudentTable = () => {
       const updatedStudent = await response.json();
       console.log('Updated student:', updatedStudent);
 
-      // Update the students list with the new data
       setStudents(students.map(student =>
         student.id === editingStudent.id ? { ...student, ...editedData } : student
       ));
 
-      setEditingStudent(null);  // Close the edit modal
+      setEditingStudent(null);
     } catch (error) {
       setError(error.message);
     }
   };
 
   const handleCancelEdit = () => {
-    setEditingStudent(null);  // Close the edit modal without saving
+    setEditingStudent(null);
   };
 
   const handleDelete = async (id) => {
@@ -126,11 +137,9 @@ const StudentTable = () => {
 
   const filteredStudents = students.filter(student => {
     const matchesName = student.firstName && student.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCourse = selectedCourse ? student.course === selectedCourse : true;
+    const matchesCourse = selectedCourse ? student.courseName === selectedCourse : true;
     return matchesName && matchesCourse;
   });
-
-  const courses = [...new Set(students.map(student => student.course))];
 
   if (loading) {
     return <div>Loading...</div>;
@@ -152,8 +161,8 @@ const StudentTable = () => {
         />
         <select value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
           <option value="">All Courses</option>
-          {courses.map((course, index) => (
-            <option key={index} value={course}>{course}</option>
+          {courses.map((course) => (
+            <option key={course.id} value={course.courseName}>{course.courseName}</option>
           ))}
         </select>
       </div>

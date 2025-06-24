@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './feehead.css';
 
-const StudentTable = () => {
-  const [students, setStudents] = useState([]);
+const FeesHeadTable = () => {
+  const [feeHeads, setFeeHeads] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [feeHeadName, setFeeHeadName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch data using the GET API
+  // ✅ Fetch all fee heads
   useEffect(() => {
     const fetchFeeHeads = async () => {
       try {
@@ -34,7 +34,7 @@ const StudentTable = () => {
         }
 
         const data = await response.json();
-        setStudents(data); // Assuming `data` is an array of fee heads
+        setFeeHeads(data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -45,7 +45,7 @@ const StudentTable = () => {
     fetchFeeHeads();
   }, []);
 
-  // Add new fee head using the POST API
+  // ✅ Add new fee head
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (feeHeadName.trim()) {
@@ -71,8 +71,8 @@ const StudentTable = () => {
           throw new Error(`Failed to add fee head: ${response.statusText}`);
         }
 
-        const newStudent = await response.json(); // Assuming the API returns the newly created fee head
-        setStudents([...students, newStudent]);
+        const newFeeHead = await response.json();
+        setFeeHeads([...feeHeads, newFeeHead]);
         setFeeHeadName('');
       } catch (error) {
         setError(error.message);
@@ -82,44 +82,43 @@ const StudentTable = () => {
     }
   };
 
-  // Edit fee head using the PUT API
- // Edit fee head using the PUT API
-const handleEdit = async (id, updatedName) => {
-  try {
-    setLoading(true);
-    setError(null);
+  // ✅ Edit fee head
+  const handleEdit = async (id, updatedName) => {
+    try {
+      setLoading(true);
+      setError(null);
 
-    const authToken = localStorage.getItem('access_token');
-    if (!authToken) {
-      throw new Error('No authentication token found. Please login.');
+      const authToken = localStorage.getItem('access_token');
+      if (!authToken) {
+        throw new Error('No authentication token found. Please login.');
+      }
+
+      const response = await fetch(`http://127.0.0.1:8000/fees/addFeeHead/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ feeHeadName: updatedName }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update fee head: ${response.statusText}`);
+      }
+
+      const updatedFeeHead = await response.json();
+      setFeeHeads(feeHeads.map(item =>
+        item.id === id ? { ...item, feeHeadName: updatedFeeHead.feeHeadName } : item
+      ));
+      setOpenDropdown(null);  // close the dropdown after editing
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const response = await fetch(`http://127.0.0.1:8000/fees/addFeeHead/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ feeHeadName: updatedName }), // Ensure you're passing the updated data here
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to update fee head: ${response.statusText}`);
-    }
-
-    const updatedFeeHead = await response.json();
-    setStudents(students.map(student =>
-      student.id === id ? { ...student, feeHeadName: updatedFeeHead.feeHeadName } : student
-    ));
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  // Delete fee head using the DELETE API
+  // ✅ Delete fee head
   const handleDelete = async (id) => {
     try {
       setLoading(true);
@@ -142,7 +141,7 @@ const handleEdit = async (id, updatedName) => {
         throw new Error('Failed to delete fee head');
       }
 
-      setStudents(students.filter(student => student.id !== id));
+      setFeeHeads(feeHeads.filter(item => item.id !== id));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -150,18 +149,19 @@ const handleEdit = async (id, updatedName) => {
     }
   };
 
-  // Filter fee heads based on search term
-  const filteredStudents = students.filter(student =>
-    student.feeHeadName && student.feeHeadName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  // ✅ Dropdown toggle
   const toggleDropdown = (id) => {
     setOpenDropdown(openDropdown === id ? null : id);
   };
 
+  // ✅ Filter fee heads by search term
+  const filteredFeeHeads = feeHeads.filter(item =>
+    item.feeHeadName && item.feeHeadName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
-      <h2>Fee Head</h2>
+      <h2>Fee Head Management</h2>
       {error && <div className="error-message">{error}</div>}
       <div className="filter-container">
         <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
@@ -195,33 +195,37 @@ const handleEdit = async (id, updatedName) => {
             </tr>
           </thead>
           <tbody>
-            {filteredStudents.map((student, index) => (
-              <tr key={student.id}>
-                <td>{index + 1}</td>
-                <td>
-                  {openDropdown === student.id ? (
-                    <input
-                      type="text"
-                      value={student.feeHeadName}
-                      onChange={(e) => handleEdit(student.id, e.target.value)}
-                    />
-                  ) : (
-                    student.feeHeadName
-                  )}
-                </td>
-                <td>
-                  <div className="dropdown">
-                    <button onClick={() => toggleDropdown(student.id)} className="dots-button">•••</button>
-                    {openDropdown === student.id && (
-                      <div className="dropdown-menu">
-                        <button onClick={() => handleEdit(student.id, student.feeHeadName)}>Save</button>
-                        <button onClick={() => handleDelete(student.id)}>Delete</button>
-                      </div>
+            {filteredFeeHeads.length === 0 ? (
+              <tr><td colSpan="3">No fee heads found.</td></tr>
+            ) : (
+              filteredFeeHeads.map((item, index) => (
+                <tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    {openDropdown === item.id ? (
+                      <input
+                        type="text"
+                        defaultValue={item.feeHeadName}
+                        onBlur={(e) => handleEdit(item.id, e.target.value)}
+                      />
+                    ) : (
+                      item.feeHeadName
                     )}
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>
+                    <div className="dropdown">
+                      <button onClick={() => toggleDropdown(item.id)} className="dots-button">•••</button>
+                      {openDropdown === item.id && (
+                        <div className="dropdown-menu">
+                          <button onClick={() => toggleDropdown(item.id)}>Cancel</button>
+                          <button onClick={() => handleDelete(item.id)}>Delete</button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       )}
@@ -229,4 +233,4 @@ const handleEdit = async (id, updatedName) => {
   );
 };
 
-export default StudentTable;
+export default FeesHeadTable;
