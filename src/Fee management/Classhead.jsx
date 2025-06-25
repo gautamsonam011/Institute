@@ -3,14 +3,33 @@ import './classhead.css';
 
 const ClassFeeHeadTable = () => {
   const [feeHeads, setFeeHeads] = useState([]);
-  const [feeHeadName, setFeeHeadName] = useState('');
+  const [allFeeHeadOptions, setAllFeeHeadOptions] = useState([]);
+  const [selectedFeeHead, setSelectedFeeHead] = useState('');
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const getAuthToken = () => localStorage.getItem('access_token');
 
-  // ✅ Fetch existing fee heads
+  // ✅ Fetch all available fee head names for dropdown
+  const fetchFeeHeadOptions = async () => {
+    try {
+      const token = getAuthToken();
+      const response = await fetch('http://127.0.0.1:8000/fees/addFeeHeadAll', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) throw new Error('Failed to fetch fee head options');
+      const data = await response.json();
+      setAllFeeHeadOptions(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // ✅ Fetch already added fee heads
   const fetchFeeHeads = async () => {
     try {
       setLoading(true);
@@ -32,21 +51,21 @@ const ClassFeeHeadTable = () => {
   };
 
   useEffect(() => {
+    fetchFeeHeadOptions();
     fetchFeeHeads();
   }, []);
 
-  // ✅ Handle form submission to add new fee head
+  // ✅ Handle submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!feeHeadName.trim() || !amount.trim()) {
-      alert('Please enter both Fee Head Name and Amount.');
+    if (!selectedFeeHead || !amount.trim()) {
+      alert('Please select a Fee Head and enter an Amount.');
       return;
     }
 
     try {
       setLoading(true);
       const token = getAuthToken();
-
       const response = await fetch('http://127.0.0.1:8000/fees/classFeeHead', {
         method: 'POST',
         headers: {
@@ -54,7 +73,7 @@ const ClassFeeHeadTable = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          feeHeadName: feeHeadName.trim(),
+          feeHeadName: selectedFeeHead,
           amount: parseFloat(amount),
         }),
       });
@@ -64,9 +83,9 @@ const ClassFeeHeadTable = () => {
         throw new Error(errorData.detail || 'Failed to add fee head');
       }
 
-      setFeeHeadName('');
+      setSelectedFeeHead('');
       setAmount('');
-      await fetchFeeHeads(); // refresh table
+      await fetchFeeHeads();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -81,13 +100,19 @@ const ClassFeeHeadTable = () => {
       {error && <div className="error-message">{error}</div>}
 
       <form onSubmit={handleSubmit} className="fee-head-form">
-        <input
-          type="text"
-          placeholder="Fee Head Name"
-          value={feeHeadName}
-          onChange={(e) => setFeeHeadName(e.target.value)}
+        <select
+          value={selectedFeeHead}
+          onChange={(e) => setSelectedFeeHead(e.target.value)}
           required
-        />
+        >
+          <option value="">-- Select Fee Head Name --</option>
+          {allFeeHeadOptions.map((head) => (
+            <option key={head.id} value={head.feeHeadName}>
+              {head.feeHeadName}
+            </option>
+          ))}
+        </select>
+
         <input
           type="number"
           placeholder="Amount"
@@ -95,6 +120,7 @@ const ClassFeeHeadTable = () => {
           onChange={(e) => setAmount(e.target.value)}
           required
         />
+
         <button type="submit" disabled={loading}>
           {loading ? 'Adding...' : 'Add Fee Head'}
         </button>

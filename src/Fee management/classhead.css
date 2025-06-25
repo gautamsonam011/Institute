@@ -125,3 +125,7 @@ table {
   color: red;
   margin-bottom: 10px;
 }
+
+.fee-head-form select{
+  width: 300px !important;
+}
