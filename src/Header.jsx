@@ -18,8 +18,8 @@ function Header({ OpenSidebar, handleLogout }) {
             <BsSearch className='icon'/>
         </div>
         <div className='header-right'>
-            <BsFillBellFill className='icon'/>
-            <BsFillEnvelopeFill className='icon'/>
+            {/* <BsFillBellFill className='icon'/> */}
+            {/* <BsFillEnvelopeFill className='icon'/> */}
             <div className="dropdown-container">
                 <BsPersonCircle className='icon' onClick={toggleDropdown} />
                 {isDropdownOpen && (

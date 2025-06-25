@@ -90,3 +90,38 @@ table {
     background-color: #036873;
   }
     
+.class-fee-head-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.fee-head-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.fee-head-form input {
+  padding: 8px;
+  flex: 1;
+}
+
+.fee-head-form button {
+  background-color: #036873;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: small;
+}
+
+.fee-head-form button:disabled {
+  background-color: #ccc;
+}
+
+
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
